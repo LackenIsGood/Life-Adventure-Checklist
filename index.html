@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Adventure Checklist: Ages 20-25</title>
+    <meta name="description" content="An interactive checklist of 65+ experiences, travels, and goals for ages 20-25. Track your personal growth journey.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✅</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #ff7e5f;
+            --light: #f8f9fa;
+            --dark: #121826;
+            --gray: #6c757d;
+            --success: #28a745;
+            --card-bg: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --primary: #6d9ee6;
+            --secondary: #8bb9f0;
+            --accent: #ff9a7a;
+            --light: #121826;
+            --dark: #f8f9fa;
+            --gray: #a0aec0;
+            --success: #34d399;
+            --card-bg: #1e293b;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 40px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 15px;
+        }
+
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .github-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 8px var(--shadow);
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .progress-container {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 15px var(--shadow);
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 15px var(--shadow);
+            border-top: 5px solid var(--primary);
+        }
+
+        .category-card.experience {
+            border-top-color: #ff7e5f;
+        }
+
+        .category-card.travel {
+            border-top-color: #4ecdc4;
+        }
+
+        .category-card.fun {
+            border-top-color: #ffb347;
+        }
+
+        .category-card.career {
+            border-top-color: #9d50bb;
+        }
+
+        .category-card.health {
+            border-top-color: #2ecc71;
+        }
+
+        .category-card.development {
+            border-top-color: #3498db;
+        }
+
+        .category-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .category-title i {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .checklist-item {
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--gray);
+            border-radius: 4px;
+            margin-right: 12px;
+            margin-top: 2px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .checklist-item input[type="checkbox"]:checked {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .checklist-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            flex-grow: 1;
+        }
+
+        .checklist-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-save {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-reset {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-export {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .footer-note {
+            text-align: center;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--gray);
+            box-shadow: 0 6px 15px var(--shadow);
+        }
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                width: 45px;
+                height: 45px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header>
+        <div class="container">
+            <h1>Life Adventure Checklist</h1>
+            <p class="subtitle">Your guide to an amazing journey from ages 20 to 25. Check off each experience as you live it!</p>
+            <a href="https://github.com" target="_blank" class="github-link">
+                <i class="fab fa-github"></i>
+                Hosted on GitHub Pages
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="progress-container">
+            <h2>Your Progress: <span id="progressPercent">0%</span></h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="stats">
+                <span>Completed: <span id="completedCount">0</span> of 65</span>
+                <span>Remaining: <span id="remainingCount">65</span></span>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-save" id="saveBtn">
+                    <i class="fas fa-save"></i>
+                    Save Progress
+                </button>
+                <button class="btn btn-export" id="exportBtn">
+                    <i class="fas fa-download"></i>
+                    Export Checklist
+                </button>
+                <button class="btn btn-reset" id="resetBtn">
+                    <i class="fas fa-redo"></i>
+                    Reset All
+                </button>
+            </div>
+        </div>
+
+        <div class="categories">
+            <!-- Experiences Category -->
+            <div class="category-card experience">
+                <div class="category-title">
+                    <i class="fas fa-star"></i>
+                    <h3>Life Experiences</h3>
+                </div>
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item1">
+                        <label for="item1">Attend a music festival with friends</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item2">
+                        <label for="item2">Learn to cook 5 dishes from different cultures</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item3">
+                        <label for="item3">Go on a spontaneous road trip</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item4">
+                        <label for="item4">Watch sunrise from a beautiful viewpoint</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item5">
+                        <label for="item5">Attend a cultural festival in another country</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item6">
+                        <label for="item6">Try an extreme sport (skydiving, bungee, etc.)</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item7">
+                        <label for="item7">Volunteer for a cause you care about</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item8">
+                        <label for="item8">Attend a major sporting event</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item9">
+                        <label for="item9">Learn to play a musical instrument</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item10">
+                        <label for="item10">Go camping under the stars</label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Travel Category -->
+            <div class="category-card travel">
+                <div class="category-title">
+                    <i class="fas fa-plane"></i>
+                    <h3>Travel Adventures</h3>
+                </div>
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item11">
+                        <label for="item11">Visit a country where you don't speak the language</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item12">
+                        <label for="item12">Take a solo trip for at least 3 days</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item13">
+                        <label for="item13">Go backpacking on a budget</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item14">
+                        <label for="item14">Visit at least 3 different continents</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item15">
+                        <label for="item15">Go on a beach vacation with friends</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item16">
+                        <label for="item16">Take a train journey through scenic landscapes</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item17">
+                        <label for="item17">Stay in a hostel and meet fellow travelers</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item18">
+                        <label for="item18">Visit a place you've dreamed about since childhood</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item19">
+                        <label for="item19">Go on a weekend getaway without planning</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item20">
+                        <label for="item20">Experience a natural wonder (waterfall, canyon, etc.)</label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Fun & Living Category -->
+            <div class="category-card fun">
+                <div class="category-title">
+                    <i class="fas fa-laugh-beam"></i>
+                    <h3>Fun & Living</h3>
+                </div>
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item21">
+                        <label for="item21">Host a themed dinner party</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item22">
+                        <label for="item22">Learn to dance (salsa, swing, etc.)</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item23">
+                        <label for="item23">Go to a comedy show or improv night</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item24">
+                        <label for="item24">Have a movie marathon with friends</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item25">
+                        <label for="item25">Attend a costume party in creative attire</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item26">
+                        <label for="item26">Try karaoke (even if you can't sing!)</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item27">
+                        <label for="item27">Go to an amusement park and ride roller coasters</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item28">
+                        <label for="item28">Have a game night with board games</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item29">
+                        <label for="item29">Take a class just for fun (pottery, painting, etc.)</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item30">
+                        <label for="item30">Celebrate a holiday in a completely new way</label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Career Category -->
+            <div class="category-card career">
+                <div class="category-title">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>Career & Finance</h3>
+                </div>
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item31">
+                        <label for="item31">Secure your first "real" job in your field</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item32">
+                        <label for="item32">Build a professional network of 50+ contacts</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item33">
+                        <label for="item33">Create a budget and stick to it for 3 months</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item34">
+                        <label for="item34">Start building an emergency fund</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item35">
+                        <label for="item35">Attend a professional conference or workshop</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item36">
+                        <label for="item36">Learn a skill relevant to your career growth</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item37">
+                        <label for="item37">Ask for a raise or promotion</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item38">
+                        <label for="item38">Start investing (even if it's a small amount)</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item39">
+                        <label for="item39">Create or update your professional portfolio/resume</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item40">
+                        <label for="item40">Find a mentor in your industry</label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Health Category -->
+            <div class="category-card health">
+                <div class="category-title">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Health & Wellness</h3>
+                </div>
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item41">
+                        <label for="item41">Establish a consistent exercise routine</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item42">
+                        <label for="item42">Learn to cook healthy meals</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item43">
+                        <label for="item43">Complete a fitness challenge (5K, month of yoga, etc.)</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item44">
+                        <label for="item44">Develop a healthy sleep schedule</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item45">
+                        <label for="item45">Try meditation for 30 consecutive days</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item46">
+                        <label for="item46">Take a digital detox weekend</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item47">
+                        <label for="item47">Learn about nutrition and balanced eating</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item48">
+                        <label for="item48">Find a physical activity you genuinely enjoy</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item49">
+                        <label for="item49">Practice mindfulness in daily activities</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item50">
+                        <label for="item50">Establish annual health check-up routine</label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Personal Development Category -->
+            <div class="category-card development">
+                <div class="category-title">
+                    <i class="fas fa-brain"></i>
+                    <h3>Personal Development</h3>
+                </div>
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item51">
+                        <label for="item51">Read at least 12 books in a year</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item52">
+                        <label for="item52">Learn a new language (even basics)</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item53">
+                        <label for="item53">Start a journal and write regularly</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item54">
+                        <label for="item54">Conquer a fear or phobia</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item55">
+                        <label for="item55">Develop a morning or evening routine</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item56">
+                        <label for="item56">Learn basic financial literacy</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item57">
+                        <label for="item57">Practice public speaking (join Toastmasters, etc.)</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item58">
+                        <label for="item58">Take a course outside your comfort zone</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item59">
+                        <label for="item59">Learn to manage stress effectively</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item60">
+                        <label for="item60">Set and achieve a meaningful personal goal</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item61">
+                        <label for="item61">Develop emotional intelligence skills</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item62">
+                        <label for="item62">Learn basic home maintenance skills</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item63">
+                        <label for="item63">Practice gratitude daily for a month</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item64">
+                        <label for="item64">Learn time management techniques</label>
+                    </li>
+                    <li class="checklist-item">
+                        <input type="checkbox" id="item65">
+                        <label for="item65">Define your personal values and principles</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <p>Remember: This checklist is a guide, not a requirement. Life is about the journey, not checking boxes. Create your own adventures and make each experience uniquely yours!</p>
+            <p style="margin-top: 10px;">Your progress is saved automatically in your browser. Data is stored locally and never sent to any server.</p>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('checklist-theme', 'dark');
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('checklist-theme', 'light');
+            }
+            
+            updateProgress();
+        });
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('checklist-theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.className = 'fas fa-sun';
+        }
+        
+        // Progress tracking functionality
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        const completedCount = document.getElementById('completedCount');
+        const remainingCount = document.getElementById('remainingCount');
+        const totalItems = checkboxes.length;
+        const STORAGE_KEY = 'life-checklist-data';
+        
+        // Load saved checkbox states from localStorage
+        function loadSavedData() {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    checkboxes.forEach(checkbox => {
+                        if (data[checkbox.id]) {
+                            checkbox.checked = true;
+                        }
+                    });
+                    updateProgress();
+                } catch (e) {
+                    console.error('Error loading saved data:', e);
+                }
+            }
+        }
+        
+        // Save all checkbox states
+        function saveAllData() {
+            const data = {};
+            checkboxes.forEach(checkbox => {
+                data[checkbox.id] = checkbox.checked;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            showNotification('Progress saved successfully!');
+        }
+        
+        // Export checklist data as JSON file
+        function exportData() {
+            const data = {};
+            checkboxes.forEach(checkbox => {
+                data[checkbox.id] = {
+                    checked: checkbox.checked,
+                    label: document.querySelector(`label[for="${checkbox.id}"]`).textContent
+                };
+            });
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const exportFileDefaultName = 'life-checklist-data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Checklist exported successfully!');
+        }
+        
+        // Reset all checkboxes
+        function resetAll() {
+            if (confirm('Are you sure you want to reset all checkboxes? This cannot be undone.')) {
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                localStorage.removeItem(STORAGE_KEY);
+                updateProgress();
+                showNotification('All checkboxes have been reset.');
+            }
+        }
+        
+        // Show temporary notification
+        function showNotification(message) {
+            // Remove existing notification if any
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--success);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-weight: 600;
+                animation: fadeInOut 3s ease-in-out;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Add CSS animation for fade in/out
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; bottom: 0; }
+                    10% { opacity: 1; bottom: 20px; }
+                    90% { opacity: 1; bottom: 20px; }
+                    100% { opacity: 0; bottom: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            setTimeout(() => {
+                notification.remove();
+                style.remove();
+            }, 3000);
+        }
+        
+        // Update progress bar and counters
+        function updateProgress() {
+            const checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percent = Math.round((checkedCount / totalItems) * 100);
+            
+            progressFill.style.width = `${percent}%`;
+            progressPercent.textContent = `${percent}%`;
+            completedCount.textContent = checkedCount;
+            remainingCount.textContent = totalItems - checkedCount;
+            
+            // Update progress bar color based on completion
+            if (percent < 30) {
+                progressFill.style.background = "linear-gradient(90deg, #ff7e5f, #feb47b)";
+            } else if (percent < 70) {
+                progressFill.style.background = "linear-gradient(90deg, #4a6fa5, #6d9ee6)";
+            } else {
+                progressFill.style.background = "linear-gradient(90deg, #2ecc71, #34d399)";
+            }
+            
+            // Auto-save when checkbox changes
+            saveAllData();
+        }
+        
+        // Initialize event listeners
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgress);
+        });
+        
+        // Button event listeners
+        document.getElementById('saveBtn').addEventListener('click', saveAllData);
+        document.getElementById('exportBtn').addEventListener('click', exportData);
+        document.getElementById('resetBtn').addEventListener('click', resetAll);
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
